@@ -24,8 +24,9 @@
       background: rgba(0,0,0,0.7);
       padding: 20px;
     }
-    .question h2 {
+    .question h2, .lock-screen h2 {
       margin-bottom: 20px;
+      font-size: 2em;
     }
     .options button {
       background: white;
@@ -59,6 +60,11 @@
     .main-content {
       display: none;
       padding: 40px 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .gallery {
       display: grid;
@@ -74,46 +80,40 @@
       font-size: 2.5em;
       margin-bottom: 30px;
     }
-    /* Fireworks Background */
-    .fireworks {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: transparent;
-      z-index: -1;
-    }
   </style>
 </head>
 <body>
-  <canvas id="fireworks" class="fireworks"></canvas>  <div id="question1" class="lock-screen">
-    <h2>When is our wedding anniversary?</h2>
-    <div class="options">
+  <div id="question1" class="lock-screen" data-aos="zoom-in">
+    <h2 data-aos="fade-down">When is our wedding anniversary?</h2>
+    <div class="options" data-aos="fade-up">
       <button onclick="checkAnswer1('A')">A. 22 March 2024</button>
       <button onclick="checkAnswer1('B')">B. 25 March 2024</button>
       <button onclick="checkAnswer1('C')">C. 27 March 2024</button>
     </div>
-    <div id="error1" class="error-msg"></div>
-  </div>  <div id="question2" class="lock-screen" style="display:none;">
-    <h2>Which word defines Aman's love?</h2>
-    <div class="options">
+    <div id="error1" class="error-msg" data-aos="fade-in"></div>
+  </div>  <div id="question2" class="lock-screen" style="display:none;" data-aos="zoom-in">
+    <h2 data-aos="fade-down">Which word defines Aman's love?</h2>
+    <div class="options" data-aos="fade-up">
       <button onclick="checkAnswer2('A')">A. Infinity</button>
       <button onclick="checkAnswer2('B')">B. Endless</button>
       <button onclick="checkAnswer2('C')">C. Indefinite</button>
     </div>
-    <div id="error2" class="error-msg"></div>
+    <div id="error2" class="error-msg" data-aos="fade-in"></div>
   </div>  <div class="main-content" id="main">
-    <h1 data-aos="fade-up">Happy 18th Birthday, Khushi! 🎉</h1>
-    <div class="gallery" data-aos="zoom-in">
-      <img src="https://i.postimg.cc/3rCpfc0j/Chat-GPT-Image-Mar-30-2025-at-05-56-42-PM.png" />
-      <img src="https://i.postimg.cc/fbmktVx7/Chat-GPT-Image-Mar-30-2025-03-47-49-PM.png" />
-      <img src="https://i.postimg.cc/bNyn7917/Chat-GPT-Image-Mar-30-2025-03-48-17-PM.png" />
-      <img src="https://i.postimg.cc/63KqdB0k/Chat-GPT-Image-Mar-30-2025-04-13-31-PM.png" />
-      <img src="https://i.postimg.cc/HkfCy32R/Chat-GPT-Image-Mar-30-2025-06-14-42-PM.png" />
-      <img src="https://i.postimg.cc/kgDb4M1w/Chat-GPT-Image-Mar-30-2025-06-26-35-PM.png" />
-      <img src="https://i.postimg.cc/gkghmLDn/Chat-GPT-Image-Mar-31-2025-09-40-04-AM.png" />
+    <h1 data-aos="flip-left">Happy 18th Birthday, Khushi! 🎉</h1>
+    <div class="gallery">
+      <img src="https://i.postimg.cc/3rCpfc0j/Chat-GPT-Image-Mar-30-2025-at-05-56-42-PM.png" data-aos="zoom-in" />
+      <img src="https://i.postimg.cc/fbmktVx7/Chat-GPT-Image-Mar-30-2025-03-47-49-PM.png" data-aos="zoom-in-up" />
+      <img src="https://i.postimg.cc/bNyn7917/Chat-GPT-Image-Mar-30-2025-03-48-17-PM.png" data-aos="flip-left" />
+      <img src="https://i.postimg.cc/63KqdB0k/Chat-GPT-Image-Mar-30-2025-04-13-31-PM.png" data-aos="flip-right" />
+      <img src="https://i.postimg.cc/HkfCy32R/Chat-GPT-Image-Mar-30-2025-06-14-42-PM.png" data-aos="zoom-in-right" />
+      <img src="https://i.postimg.cc/kgDb4M1w/Chat-GPT-Image-Mar-30-2025-06-26-35-PM.png" data-aos="zoom-out-left" />
+      <img src="https://i.postimg.cc/gkghmLDn/Chat-GPT-Image-Mar-31-2025-09-40-04-AM.png" data-aos="fade-up-right" />
     </div>
   </div>  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>  <script>
-    AOS.init();
+    AOS.init({
+      duration: 1200,
+    });
 
     function checkAnswer1(choice) {
       const error = document.getElementById('error1');
@@ -144,37 +144,5 @@
         setTimeout(() => btn.classList.remove('shake'), 400);
       });
     }
-
-    // Fireworks Animation (Simple Canvas)
-    const canvas = document.getElementById("fireworks");
-    const ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    function drawFirework() {
-      const x = Math.random() * canvas.width;
-      const y = Math.random() * canvas.height / 2;
-      for (let i = 0; i < 100; i++) {
-        const angle = Math.random() * 2 * Math.PI;
-        const radius = Math.random() * 2 + 1;
-        const vx = Math.cos(angle) * radius;
-        const vy = Math.sin(angle) * radius;
-        const alpha = 1;
-        const color = `hsl(${Math.random() * 360}, 100%, 70%)`;
-
-        setTimeout(() => {
-          ctx.beginPath();
-          ctx.arc(x + vx * 30, y + vy * 30, 2, 0, Math.PI * 2);
-          ctx.fillStyle = color;
-          ctx.fill();
-        }, i * 5);
-      }
-    }
-
-    setInterval(drawFirework, 800);
-    window.addEventListener("resize", () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    });
   </script></body>
 </html>
