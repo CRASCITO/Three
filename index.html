@@ -13,52 +13,9 @@
       background: linear-gradient(135deg, #ff4e8b, #ffb6c1);
       overflow-x: hidden;
       color: white;
-    }
-    .lock-screen, .question {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      text-align: center;
-      background: rgba(0,0,0,0.7);
-      padding: 20px;
-    }
-    .question h2, .lock-screen h2 {
-      margin-bottom: 20px;
-      font-size: 2em;
-    }
-    .options button {
-      background: white;
-      color: #ff4e8b;
-      border: none;
-      padding: 10px 20px;
-      margin: 10px;
-      border-radius: 30px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-    .options button:hover {
-      background: #ffb6c1;
-    }
-    .shake {
-      animation: shake 0.4s;
-    }
-    @keyframes shake {
-      0% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      50% { transform: translateX(5px); }
-      75% { transform: translateX(-5px); }
-      100% { transform: translateX(0); }
-    }
-    .error-msg {
-      margin-top: 15px;
-      color: #ffdede;
-      font-style: italic;
+      position: relative;
     }
     .main-content {
-      display: none;
       padding: 40px 20px;
       animation: fadeIn 1s ease-in-out;
     }
@@ -79,27 +36,29 @@
     h1 {
       font-size: 2.5em;
       margin-bottom: 30px;
-    }
+    }.firework {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  animation: rise 1s ease-out forwards;
+}
+@keyframes rise {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-200px) scale(0);
+    opacity: 0;
+  }
+}
+
   </style>
 </head>
 <body>
-  <div id="question1" class="lock-screen" data-aos="zoom-in">
-    <h2 data-aos="fade-down">When is our wedding anniversary?</h2>
-    <div class="options" data-aos="fade-up">
-      <button onclick="checkAnswer1('A')">A. 22 March 2024</button>
-      <button onclick="checkAnswer1('B')">B. 25 March 2024</button>
-      <button onclick="checkAnswer1('C')">C. 27 March 2024</button>
-    </div>
-    <div id="error1" class="error-msg" data-aos="fade-in"></div>
-  </div>  <div id="question2" class="lock-screen" style="display:none;" data-aos="zoom-in">
-    <h2 data-aos="fade-down">Which word defines Aman's love?</h2>
-    <div class="options" data-aos="fade-up">
-      <button onclick="checkAnswer2('A')">A. Infinity</button>
-      <button onclick="checkAnswer2('B')">B. Endless</button>
-      <button onclick="checkAnswer2('C')">C. Indefinite</button>
-    </div>
-    <div id="error2" class="error-msg" data-aos="fade-in"></div>
-  </div>  <div class="main-content" id="main">
+  <div class="main-content" id="main">
     <h1 data-aos="flip-left">Happy 18th Birthday, Khushi! 🎉</h1>
     <div class="gallery">
       <img src="https://i.postimg.cc/3rCpfc0j/Chat-GPT-Image-Mar-30-2025-at-05-56-42-PM.png" data-aos="zoom-in" />
@@ -115,34 +74,18 @@
       duration: 1200,
     });
 
-    function checkAnswer1(choice) {
-      const error = document.getElementById('error1');
-      if (choice === 'C') {
-        document.getElementById('question1').style.display = 'none';
-        document.getElementById('question2').style.display = 'flex';
-      } else {
-        error.innerText = "💔 Aww no, that’s not it! Think of the most special date ever ✨";
-        shakeButtons('question1');
-      }
+    function createFirework() {
+      const fw = document.createElement('div');
+      fw.classList.add('firework');
+      fw.style.left = Math.random() * window.innerWidth + 'px';
+      fw.style.top = window.innerHeight + 'px';
+      document.body.appendChild(fw);
+      setTimeout(() => fw.remove(), 1000);
     }
 
-    function checkAnswer2(choice) {
-      const error = document.getElementById('error2');
-      if (choice === 'B') {
-        document.getElementById('question2').style.display = 'none';
-        document.getElementById('main').style.display = 'block';
-      } else {
-        error.innerText = "💌 Nope, that’s close—but Aman’s love is more beautiful than that 💞 Try again!";
-        shakeButtons('question2');
-      }
-    }
-
-    function shakeButtons(sectionId) {
-      const buttons = document.querySelectorAll(`#${sectionId} .options button`);
-      buttons.forEach(btn => {
-        btn.classList.add('shake');
-        setTimeout(() => btn.classList.remove('shake'), 400);
-      });
-    }
+    // Minimal occasional firework effect
+    setInterval(() => {
+      if (Math.random() > 0.7) createFirework();
+    }, 800);
   </script></body>
 </html>
